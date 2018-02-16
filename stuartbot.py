@@ -5,7 +5,9 @@ import os
 
 def serveforever(apikey):
     if (apikey == ''):
-        print('APIKEY_SLACK is empty. source setapikey.sh...')
+        print('ERROR: APIKEY_SLACK is empty. your need to copy setapikey.sh ')
+        print('       from setapikey.sh.sample then')
+        print('       source setapikey.sh')
         return
     
     import time, pprint
