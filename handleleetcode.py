@@ -38,8 +38,11 @@ def pickone(difficulty='Medium'):
     # random pick one
     el = random.choice(l_el)
     # return {'text' : el.text, 'link' : el.get_attribute("href")}
-    print(el.get_attribute("href"))
-    return el.get_attribute("href")
+    #print(el.get_attribute("href"))
+    link  = el.get_attribute("href")
+    if link.find('/description') < 0:
+        link += '/description/'
+    return link
 
 if __name__ == "__main__":
     print(pickone())
