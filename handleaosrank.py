@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import pprint, random
 
-l_key = [u'영화']
+l_key = [u'구글플레이 순위']
 
 def probe(d_pkt):
     text = d_pkt['text']
@@ -14,7 +14,8 @@ def probe(d_pkt):
     return False
 
 def handle(d_pkt):
-    url = 'https://torrentkim12.com/torrent_movie/torrent1.htm'
+    url = 'http://www.gevolution.co.kr/rank/aos.asp'
+    
     options = webdriver.ChromeOptions()
     # options.binary_location = '/usr/local/bin/chromedriver'
     options.add_argument('headless')
@@ -24,10 +25,10 @@ def handle(d_pkt):
 
     # process final html
     r = ''
-    l_el = driver.find_elements_by_xpath("//*[@id='bbs_latest_list']/table/tbody/tr/td[1]/a[contains(@href, '../torrent_movie/')]")
-    l_el.extend(driver.find_elements_by_xpath("//*[@id='bbs_latest_list']/table/tbody/tr/td[2]/a[contains(@href, '../torrent_movie/')]"))
-    for el in l_el:
-        r += '{0} : {1}\n'.format(el.text, el.get_attribute("href"))
+    for i in range(5):        
+        xp = "//*[@id='imgload']/table/tbody/tr[{0}]/td[4]/div/div/span[1]/a".format(i+1)
+        el = driver.find_element_by_xpath(xp)
+        r += '{0}. {1} : {2}\n'.format(i+1, el.text, el.get_attribute("href"))
     return r
 
 if __name__ == "__main__":
