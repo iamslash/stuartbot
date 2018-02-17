@@ -43,6 +43,7 @@ def serveforever(apikey):
             if 'type' in d_pkt and d_pkt['type'] == 'hello':
                 print(d_pkt)
                 return
+            pprint.pprint(d_pkt)
             if 'channel' in d_pkt and 'text' in d_pkt and 'user' in d_pkt:
                 if d_pkt['user'] is not 'awesomeboy':
                     _handle(d_pkt)
