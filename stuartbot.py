@@ -3,6 +3,8 @@
 from slacker import Slacker
 import os
 
+g_l_handles = []
+
 def serveforever(apikey):
     if (apikey == ''):
         print('ERROR: APIKEY_SLACK is empty. your need to copy setapikey.sh ')
@@ -14,41 +16,61 @@ def serveforever(apikey):
     from slackclient import SlackClient
     sc = SlackClient(apikey)
     
-    def handle(a_channel):
-        if a_channel == None:
-            return
-        print('...')
-        import random
-        ANS = [u'응',u'알았어',u'그래',u'아니야',u'그럼 안돼',u'맘대로해',u'믿거나 말거나']
-        a_text = ANS[random.randrange(0, len(ANS))]
-        sc.api_call(
-            "chat.postMessage",
-            channel=a_channel,
-            text=a_text
-        )
+    def handle(l_pkts):
+        def _handle(d_pkt):
+            global g_l_handles
+            a_channel = d_pkt['channel']
+            a_text    = ''
+
+            # probe and apply right handle
+            for mhandle in g_l_handles:
+                if mhandle.probe(d_pkt):
+                    a_text = mhandle.handle(d_pkt)
+                    break
+            if not a_text:
+                import handledefault
+                a_text = handledefault.handle(d_pkt)
+
+            # post message
+            sc.api_call(
+                "chat.postMessage",
+                channel=a_channel,
+                text=a_text
+            )
         
-    def parse(l):
-        # import pdb; pdb.set_trace()
-        if l is None or len(l) is 0:
-            return None
-        pprint.pprint(l)
-        for d in l:
-            if 'channel' in d and 'text' in d and 'user' in d:
-                if d['user'] is not 'awesomeboy':
-                    return d['channel']
-        return None
+        for d_pkt in l_pkts:
+            # hand shake packet
+            if 'type' in d_pkt and d_pkt['type'] == 'hello':
+                print(d_pkt)
+                return
+            if 'channel' in d_pkt and 'text' in d_pkt and 'user' in d_pkt:
+                if d_pkt['user'] is not 'awesomeboy':
+                    _handle(d_pkt)
 
     if sc.rtm_connect(with_team_state=False):
         while True:
-            pkt = sc.rtm_read()
-            if pkt == None:
-                time.sleep(10)
-            else:
-                handle(parse(pkt))
+            l_pkts = sc.rtm_read()
+            if l_pkts == None or len(l_pkts) == 0:
                 time.sleep(1)
+            else:
+                handle(l_pkts)
     else:
         print("Connection Failed")
-        
+
+def reghandle():
+    global g_l_handles
+
+    import glob
+    l = glob.glob('handle*.py')
+
+    for m in l:
+        mname = m.replace('.py', '').strip()
+        if mname.endswith('default'):
+            continue
+        mhandle = __import__(mname)
+        g_l_handles.append(mhandle)
+    
 if __name__ == "__main__":
     apikey = os.getenv('APIKEY_SLACK', '')
+    reghandle()
     serveforever(apikey)

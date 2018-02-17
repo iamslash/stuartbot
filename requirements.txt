@@ -1,2 +1,3 @@
 slacker
 SlackClient
+selenium
