@@ -3,3 +3,4 @@
 # How to run it:
 #   source setapikey.sh
 export APIKEY_SLACK='please fill it with your string'
+export APIKEY_TELE='please fill it with your string'
