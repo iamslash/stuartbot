@@ -1,0 +1,6 @@
+# How to run it:
+#   setapikey.bat
+set APIKEY_SLACK=please fill it with your string
+set APIKEY_TELE=please fill it with your string
+set APIKEY_JANDI=please fill it with your string
+set SRVURL_JANDI=please fill it with your string

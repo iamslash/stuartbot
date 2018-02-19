@@ -1,3 +1,6 @@
 slacker
 SlackClient
 selenium
+flask
+click
+requests

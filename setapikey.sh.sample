@@ -4,3 +4,5 @@
 #   source setapikey.sh
 export APIKEY_SLACK='please fill it with your string'
 export APIKEY_TELE='please fill it with your string'
+export APIKEY_JANDI='please fill it with your string'
+export SRVURL_JANDI='please fill it with your string'

@@ -148,4 +148,4 @@ ENV/
 
 # apikey install file
 setapikey.sh
-
+setapikey.bat
