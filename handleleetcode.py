@@ -36,8 +36,18 @@ def printByTag(driver, tag):
         print('[{0}]({1})'.format(el.text, el.get_attribute("href")))   
 
 def clickFreq(driver):
-    el   = driver.find_element_by_xpath('//*[@id="question-app"]/div/div[2]/div[2]/div[2]/table/thead/tr/th[7]')
-    el.click()
+    url_tgt = r'//*[@id="question-app"]/div/div[2]/div[2]/div[2]/table/thead/tr/th[7]'
+    url_tgt = r'//*[@id="question-app"]/div/div[2]/div[2]/div[2]/table/thead/tr/th[6]'
+    el   = driver.find_element_by_xpath(url_tgt)
+    print(el)
+    # el.click()
+
+def getTags(driver):
+    driver.get('https://leetcode.com/problemset/all')
+
+    # l_el = driver.find_elements(By.CSS_SELECTOR, '.tag-category')
+    l_el = driver.find_elements_by_css_selector('.tag-category')
+    print(l_el)
 
 def pickone(difficulty='Medium'):
     # url_prob_desc = 'https://leetcode.com/problems/{0}/description/'
@@ -70,5 +80,5 @@ def pickone(difficulty='Medium'):
 if __name__ == "__main__":
     # print(pickone())
     driver = makeDriver()
-    clickFreq(driver)
-    printByTag(driver, "array")
+    # clickFreq(driver)
+    getTags(driver)
