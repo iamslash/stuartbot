@@ -145,8 +145,22 @@ def sign_into_leetcode(driver):
     driver.implicitly_wait(0)
 
 
+def printTopInterviews(driver):
+    # url_prob_desc = 'https://leetcode.com/problems/{0}/description/'
+    url = 'https://leetcode.com/problemset/top-interview-questions/'
+
+    driver.get(url)
+    
+    # click freq button
+    print('clicking...')
+    option_all = driver.find_element_by_xpath('//*[@id="question-app"]/div/div[2]/div[2]/div[2]/table/tbody[2]/tr/td/span/select/option[4]')
+    option_all.click()    
+
+    # process final html
+    l_a = driver.find_elements_by_xpath("//a[contains(@href, '/problems/')]")
+    for el_a in l_a:
+        print('  - L | [{0}]({1})'.format(el_a.text, el_a.get_attribute("href")))
+
 if __name__ == "__main__":
-    # print(pickone())
     driver = makeDriver()
-    sign_into_leetcode(driver)
-    printByTag(driver, 'array')
+    printTopInterviews(driver)
