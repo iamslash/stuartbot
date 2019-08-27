@@ -156,10 +156,21 @@ def printTopInterviews(driver):
     option_all = driver.find_element_by_xpath('//*[@id="question-app"]/div/div[2]/div[2]/div[2]/table/tbody[2]/tr/td/span/select/option[4]')
     option_all.click()    
 
+    import os.path
+    BASEPATH = r'C:/prj/github/learntocode/leetcode/'
     # process final html
     l_a = driver.find_elements_by_xpath("//a[contains(@href, '/problems/')]")
     for el_a in l_a:
-        print('  - L | [{0}]({1})'.format(el_a.text, el_a.get_attribute("href")))
+        dname = el_a.text.replace(' ', '')
+        tpath = BASEPATH + dname
+        if os.path.exists(tpath):
+            tpath += '/README.md'
+            rpath = '/leetcode/{0}/'.format(dname)
+            if os.path.exists(tpath):
+                rpath += 'README.md'
+            print('  - [L]({2}) | [{0}]({1})'.format(el_a.text, el_a.get_attribute("href"), rpath))            
+        else:
+            print('  - L | [{0}]({1})'.format(el_a.text, el_a.get_attribute("href")))
 
 if __name__ == "__main__":
     driver = makeDriver()
