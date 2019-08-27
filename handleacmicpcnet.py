@@ -43,7 +43,7 @@ def printLinks(url):
     if el_ch is None:
       continue
     if el_ch.tag == 'h4':
-      print('* {0}'.format(el_ch.text))
+      print('## {0}'.format(el_ch.text))
       print('')
     elif el_ch.tag == 'ul':
       l_a   = el_ch.xpath('//li/a')
